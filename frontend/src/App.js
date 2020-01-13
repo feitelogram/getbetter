@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './Routes';
+import Nav from './components/Nav';
+import userActions from "./redux/actions"
+import {useDispatch} from "react-redux"
 
-function App() {
+
+const App = () => {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(localStorage.token) {
+    dispatch(userActions.persistUser())
+  }
+  dispatch(userActions.getAllProviders())
+}, [dispatch]
+  )
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Nav />
+      <Routes />
+    </Router>
   );
-}
+};
 
 export default App;
