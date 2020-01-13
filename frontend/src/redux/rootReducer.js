@@ -12,7 +12,15 @@ export default (state = initialState, { type, payload }) => {
       case 'SET_PROVIDERS':
           return {...state, providers: payload}
       case "SAVE_PLACE":
-          return {...state, user: {...state.user, providers: [...state.user.providers, payload]}}
+          return {...state, user: {...state.user, 
+            providers: [...state.user.providers, payload.provider],
+            saveds: [...state.user.saveds, payload]
+        }}
+      case "REMOVE_PLACE":
+          return {...state, user: {...state.user, 
+            providers: state.user.providers.filter(provider => provider.id !== payload.providerId),
+            saveds: state.user.saveds.filter(saved => saved.id !== payload.savedId)
+        }}
       default:
         return state;
     }

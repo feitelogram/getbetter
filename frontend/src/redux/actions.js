@@ -3,7 +3,9 @@ const USERS_URL = BASE_URL + '/users';
 const PERSIST_URL = BASE_URL + '/persist';
 const LOGIN_URL = BASE_URL + '/login';
 const PROVIDERS_URL = BASE_URL + "/providers"
+const SAVEDS_URL = BASE_URL + "/saveds"
 const SPECIFIC_USER_URL = id => USERS_URL + '/' + id;
+const SPECIFIC_SAVED_URL = id => SAVEDS_URL + '/' + id;
 
 // Redux Actions
 
@@ -21,6 +23,16 @@ const clearUserAction = () => ({
 const setProvidersAction = providersArr => ({
     type: "SET_PROVIDERS",
     payload: providersArr
+})
+
+const addSavedPlaceAction = savedPlace => ({
+    type: "SAVE_PLACE",
+    payload: savedPlace
+})
+
+const removePlaceAction = (savedId, providerId) => ({
+    type: "REMOVE_PLACE",
+    payload: {savedId: savedId, providerId: providerId}
 })
 
 // Fetch
@@ -94,6 +106,38 @@ const getAllProviders = () => dispatch => {
     })
 }
 
+const makeSavedPlace = (userId, providerId) => dispatch => {
+    fetch(SAVEDS_URL, {
+      method:'POST',
+     headers: { 
+         'Content-type': 'application/json',
+         'accept': 'application/json'
+     },
+     body: JSON.stringify({
+    user_id: userId,
+    provider_id: providerId
+      })
+    })
+    .then(resp => resp.json())
+    .then(savedPlace => {
+        dispatch(addSavedPlaceAction(savedPlace))
+    })
+}
+
+const removeSavedPlace = (savedId, providerId) => dispatch => {
+    fetch(SPECIFIC_SAVED_URL(savedId), {
+      method:'DELETE',
+     headers: { 
+         'Content-type': 'application/json',
+         'accept': 'application/json'
+     },
+    })
+    .then(resp => resp.json())
+    .then(empty => {
+        dispatch(removePlaceAction(savedId, providerId))
+    })
+}
+
 
 export default {
   newUserToDB,
@@ -101,5 +145,7 @@ export default {
   loginUserToDB,
   persistUser,
   logoutUser,
-  getAllProviders
+  getAllProviders,
+  makeSavedPlace,
+  removeSavedPlace
 };

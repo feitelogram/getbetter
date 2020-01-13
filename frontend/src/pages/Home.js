@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import InlineStyle from '../styles/InlineStyle';
-import {Container, Header, Image} from "semantic-ui-react"
+import {Container, Header, Image, Grid} from "semantic-ui-react"
 import bears from "../images/bears.jpg"
 
 
@@ -16,15 +16,17 @@ const Home = () => {
   return <div>
           <InlineStyle/>
           <Container text>
-          <Header as='h1' dividing content={text}>
+          <Header as='h1' textAlign="center" dividing content={text} style={{ padding: '1em' }}>
       </Header>
       </Container>
       <Container text textAlign= "center">
-      <Image bordered rounded size='large' src={bears} />
+      <Image style={{ padding: '1em' }} bordered rounded dividing size='large' src={bears} />
+      <Grid.Row style={{ padding: '3em' }}>
           <p> getBetter is a tool for finding low-cost mental health and wellness options.
               It uses both sliding scale and free resources.
               getBetter neither endorses nor disparages any place listed.
               Every person finds the help that works for them, so feel free to try a few places and see what works for you. </p>
+      </Grid.Row>
       </Container>
   </div>;
 };

@@ -8,6 +8,7 @@ const Routes = () => {
       <Route path="/signup" component={Pages.Signup} />
       <Route path="/login" component={Pages.Login} />
       <Route path= "/search" component={Pages.Search}/>
+      <Route path= "/saveds" component={Pages.MyPlaces}/>
       <Route exact path="/" component={Pages.Home} />
     </Switch>
   );

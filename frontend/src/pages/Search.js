@@ -31,7 +31,7 @@ const Search = () => {
 
     return (
         <div>
-            <Header as='h1' dividing content="Let's Find You Some Resources"/>
+            <Header as='h1' dividing textAlign="center" content="Let's Find You Some Resources"/>
             <Header as='h3' dividing textAlign="center" content="All resources listed are low-cost, sliding-scale or free."/>
             <DropdownSelect dividing onChange={handleChange}/>
             {filter === "Substances" ? <Header as='h5' textAlign="center" content="The following is a list of open-beginners 12-step meetings. Feel free to reach out or visit."/>: null}
