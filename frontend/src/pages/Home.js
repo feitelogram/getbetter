@@ -7,10 +7,11 @@ import bears from "../images/bears.jpg"
 
 const Home = () => {
   const username = useSelector(state => state.user.username);
+  let string = "Welcome back to getBetter, " + username
   const text = username ? (
-    <h1>Welcome back to getBetter, {username} </h1>
+    <Header as="h1" content= {string}/> 
   ) : (
-    <h1>Welcome to getBetter. Please login or sign-up to start. </h1>
+    <Header as="h1" content= "Welcome to getBetter. Please login or sign-up to start."/> 
     
   );
   return <div>
@@ -20,7 +21,7 @@ const Home = () => {
       </Header>
       </Container>
       <Container text textAlign= "center">
-      <Image style={{ padding: '1em' }} bordered rounded dividing size='large' src={bears} />
+      <Image style={{ padding: '1em' }} bordered rounded size='larger' src={bears} />
       <Grid.Row style={{ padding: '3em' }}>
           <p> getBetter is a tool for finding low-cost mental health and wellness options.
               It uses both sliding scale and free resources.

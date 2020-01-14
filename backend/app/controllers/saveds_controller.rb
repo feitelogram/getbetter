@@ -1,13 +1,23 @@
 class SavedsController < ApplicationController
 
 def index
-    render json: Saved.all 
+    saveds = Saved.all
+    render json: saveds, include: [:provider, :user, :appointments]
+end
+
+def show
+saved = Saved.find(params[:id])
+if saved.valid?
+    render json: saved, include: [:user, :provider, :appointments]
+else
+    render json: {error: "could not find"}
+end
 end
 
 def create
 saved= Saved.create(saved_params)
 if saved.valid?
-    render json: saved, include: [:provider] 
+    render json: saved, include: [:provider, :user] 
     
 else
     render json: {error: "invalid params"}

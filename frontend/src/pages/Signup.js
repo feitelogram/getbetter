@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import userActions from '../redux/actions.js';
+import {Form, Header, Button} from "semantic-ui-react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const Signup = props => {
   // initializing dispatch
@@ -19,17 +24,27 @@ const Signup = props => {
   const handleSubmit = e => {
     e.preventDefault();
     const { history } = props;
-    dispatch(userActions.newUserToDB(signupForm));
-    history.push('/');
-  };
+    userActions.newUserToDB(signupForm)
+    .then(data => {
+        if(data.errors) {
+            MySwal.fire({title: "Signup error", footer: "Please pick a different username or password."})
+        } else {
+        dispatch(userActions.setUserAction(data.user));
+        localStorage.setItem('token', data.token);
+        history.push('/');
+    }
+    })};
 
   // Destructuring keys from our local state to use in the form
   const { username, password } = signupForm;
 
   // Component code
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Signup Page</h1>
+    <Form
+      onSubmit={handleSubmit}>
+      <Header as= "h1" textAlign= "center" content="Welcome to getBetter."/>
+      <Header as="h3" textAlign="center" content="Please choose a username and a secure password."/>
+      <Form.Field>
       <input
         type="text"
         name="username"
@@ -37,6 +52,8 @@ const Signup = props => {
         onChange={handleChange}
         placeholder="Username"
       />
+      </Form.Field>
+      <Form.Field>
       <input
         type="password"
         name="password"
@@ -44,8 +61,9 @@ const Signup = props => {
         onChange={handleChange}
         placeholder="Password"
       />
-      <input type="submit" />
-    </form>
+      </Form.Field>
+      <Button type="submit">Signup</Button>
+    </Form>
   );
 };
 

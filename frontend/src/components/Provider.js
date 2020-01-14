@@ -1,8 +1,13 @@
-import React from 'react'
-import { Card, Button } from 'semantic-ui-react'
+import React, {useState} from 'react'
+import { Card, Button, Form, Header } from 'semantic-ui-react'
 import userActions from '../redux/actions';
 import {useSelector, useDispatch} from "react-redux"
 // import {Map, GoogleApiWrapper} from "google-maps-react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
+
 
 const Provider = (props) => {
 
@@ -10,22 +15,34 @@ const Provider = (props) => {
     const dispatch = useDispatch()
     const saveds = useSelector(state => state.user.saveds)
     let savedProviders = saveds.map(saved => saved.provider_id)
+    const [date, setDate] = useState({date: ""})
+    let currentDate = date.date
+    let saved = saveds.find(saved => saved.provider_id === props.provider.id)
+
 
     const addToSavedPlaces = () => {
         dispatch(userActions.makeSavedPlace(userId, props.provider.id))
-        alert("Your place has been saved.")
+        MySwal.fire({title: "Your resource has been saved.", footer: "You may see more info in 'Your Resources'"})
     }
 
     const removeFromSavedPlaces = () => {
-        let saved = saveds.find(saved => saved.provider_id === props.provider.id)
         let result = window.confirm("Are you sure you wish to remove this place?")
         if(result && saved){
             dispatch(userActions.removeSavedPlace(saved.id, props.provider.id))
-            alert("This place has been removed.")
+            MySwal.fire({title: "Resource Removed"})
         }
     }
 
-   
+    const handleChange = (e) => {
+        setDate({ ...date, [e.target.name]: e.target.value });
+    }
+    
+    const handleSubmit = e => {
+        e.preventDefault()
+        dispatch(userActions.addAppointment(saved.id, date))
+        setDate({date: ""})
+        MySwal.fire({title: "Added to your Appointments"})
+    }
 
     const currentlySaved = () => {
         if(savedProviders.includes(props.provider.id)){
@@ -33,9 +50,9 @@ const Provider = (props) => {
             onClick={removeFromSavedPlaces}
             >Remove from My Places</Button>
                 } else {
-                    return <Button
-                    onClick= {addToSavedPlaces}
-                    >Save to My Places</Button>
+            return <Button
+            onClick= {addToSavedPlaces}
+            >Save to My Places</Button>
                 }
     }
     
@@ -43,8 +60,24 @@ const Provider = (props) => {
         let first = "https://www.google.com/maps/embed/v1/place?q="
         let third = "&key=" + process.env.REACT_APP_API_KEY
         let address = first + props.provider.address + third
-        return <iframe title="map" width="250" height="200" frameBorder="0" style={{border:"0"}} src= {address} allowFullScreen></iframe>
+        return <iframe title="map" width="200" height="200" frameBorder="0" style={{border:"0"}} src= {address} allowFullScreen></iframe>
     }
+
+    const appointForm = () => {
+        return (
+        <Form onSubmit={handleSubmit}>
+         <Header as="h4" content="Choose a time for you to visit:"/>
+    <Form.Field>
+      <input
+        type="text"
+        name="date"
+        value={currentDate}
+        onChange={handleChange}
+      />
+      </Form.Field>
+        <Button type="submit">Make an Appointment</Button>
+        </Form>
+        )}
 
     return (
         <Card>
@@ -67,7 +100,7 @@ const Provider = (props) => {
             <Card.Content extra>
              {props.saved ? map() : null}
             </Card.Content>
-        
+            {props.saved ? appointForm() : null}
         </Card>
     )
 }

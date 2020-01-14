@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import userActions from '../redux/actions';
+import { Form, Header, Button } from 'semantic-ui-react';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const LoginPage = props => {
   // initializing dispatch
@@ -14,9 +19,16 @@ const LoginPage = props => {
   // controlled form functions
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(userActions.loginUserToDB(loginForm));
-    props.history.push('/');
-  };
+    userActions.loginUserToDB(loginForm)
+    .then(data => {
+        if(data.errors) {
+            MySwal.fire({title: "Login not found.", footer: "Check your password, try again or signup."})
+        } else {
+        dispatch(userActions.setUserAction(data.user));
+        localStorage.setItem('token', data.token);
+        props.history.push('/');
+    }
+    })};
 
   const handleChange = e =>
     setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
@@ -26,8 +38,10 @@ const LoginPage = props => {
 
   // Component code
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Login Page</h1>
+      <Form
+      onSubmit={handleSubmit}>
+      <Header as= "h1" textAlign= "center" content="Please login to continue or signup if you're new."/>
+      <Form.Field>
       <input
         type="text"
         name="username"
@@ -35,6 +49,8 @@ const LoginPage = props => {
         onChange={handleChange}
         placeholder="Username"
       />
+      </Form.Field>
+      <Form.Field>
       <input
         type="password"
         name="password"
@@ -42,8 +58,9 @@ const LoginPage = props => {
         onChange={handleChange}
         placeholder="Password"
       />
-      <input type="submit" />
-    </form>
+      </Form.Field>
+      <Button type="submit">Login</Button>
+    </Form>
   );
 };
 

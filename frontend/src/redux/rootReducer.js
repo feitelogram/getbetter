@@ -21,6 +21,18 @@ export default (state = initialState, { type, payload }) => {
             providers: state.user.providers.filter(provider => provider.id !== payload.providerId),
             saveds: state.user.saveds.filter(saved => saved.id !== payload.savedId)
         }}
+      case "ADD_APPOINTMENT":
+          return {...state,
+              user: {...state.user,
+                appointments: [...state.user.appointments, payload]
+              }
+          }
+      case "REMOVE_APPOINTMENT":
+          return {...state,
+            user: {...state.user,
+                appointments: state.user.appointments.filter(appointment => appointment.id !== payload)
+            }
+        }
       default:
         return state;
     }

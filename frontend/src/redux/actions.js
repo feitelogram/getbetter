@@ -6,6 +6,8 @@ const PROVIDERS_URL = BASE_URL + "/providers"
 const SAVEDS_URL = BASE_URL + "/saveds"
 const SPECIFIC_USER_URL = id => USERS_URL + '/' + id;
 const SPECIFIC_SAVED_URL = id => SAVEDS_URL + '/' + id;
+const APPOINTMENTS_URL = BASE_URL + "/appointments"
+const SPECIFIC_APPOINTMENT_ID = id => APPOINTMENTS_URL + "/" + id
 
 // Redux Actions
 
@@ -35,9 +37,19 @@ const removePlaceAction = (savedId, providerId) => ({
     payload: {savedId: savedId, providerId: providerId}
 })
 
+const addAppointmentAction = (appointObj) => ({
+    type: "ADD_APPOINTMENT",
+    payload: appointObj
+})
+
+const removeAppointmentAction = id => ({
+    type: "REMOVE_APPOINTMENT",
+    payload: id
+})
+
 // Fetch
 
-const newUserToDB = userObj => dispatch => {
+const newUserToDB = userObj => {
   const config = {
     method: 'POST',
     headers: {
@@ -45,12 +57,8 @@ const newUserToDB = userObj => dispatch => {
     },
     body: JSON.stringify(userObj)
   };
-  fetch(USERS_URL, config)
+  return fetch(USERS_URL, config)
     .then(r => r.json())
-    .then(data => {
-      dispatch(setUserAction(data.user));
-      localStorage.setItem('token', data.token);
-    });
 };
 
 const deleteUserFromDB = userId => dispatch => {
@@ -63,7 +71,7 @@ const deleteUserFromDB = userId => dispatch => {
   });
 };
 
-const loginUserToDB = userCredentials => dispatch => {
+const loginUserToDB = userCredentials => {
   const config = {
     method: 'POST',
     headers: {
@@ -71,12 +79,8 @@ const loginUserToDB = userCredentials => dispatch => {
     },
     body: JSON.stringify(userCredentials)
   };
-  fetch(LOGIN_URL, config)
+  return fetch(LOGIN_URL, config)
     .then(r => r.json())
-    .then(data => {
-      dispatch(setUserAction(data.user));
-      localStorage.setItem('token', data.token);
-    });
 };
 
 const persistUser = () => dispatch => {
@@ -138,6 +142,38 @@ const removeSavedPlace = (savedId, providerId) => dispatch => {
     })
 }
 
+const addAppointment = (savedId, dateObj) => dispatch => {
+    fetch(APPOINTMENTS_URL, {
+      method:'POST',
+     headers: { 
+         'Content-type': 'application/json',
+         'accept': 'application/json'
+     },
+     body: JSON.stringify({
+    saved_id: savedId,
+    date: dateObj.date
+      })
+    })
+    .then(resp => resp.json())
+    .then(appointmentObj => {
+        dispatch(addAppointmentAction(appointmentObj))
+    })
+}
+
+const removeAppointment = appointmentId => dispatch => {
+    fetch(SPECIFIC_APPOINTMENT_ID(appointmentId), {
+      method:'DELETE',
+     headers: { 
+         'Content-type': 'application/json',
+         'accept': 'application/json'
+     },
+    })
+    .then(resp => resp.json())
+    .then(empty => {
+        dispatch(removeAppointmentAction(appointmentId))
+    })
+}
+
 
 export default {
   newUserToDB,
@@ -147,5 +183,8 @@ export default {
   logoutUser,
   getAllProviders,
   makeSavedPlace,
-  removeSavedPlace
+  removeSavedPlace,
+  setUserAction,
+  addAppointment,
+  removeAppointment
 };
