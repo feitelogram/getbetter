@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux';
 import InlineStyle from '../styles/InlineStyle';
 import {Container, Header, Image, Grid} from "semantic-ui-react"
 import bears from "../images/bears.jpg"
+import AppointmentList from "../components/AppointmentList"
 
 
 const Home = () => {
   const username = useSelector(state => state.user.username);
+  const appointments = useSelector(state => state.user.appointments)
   let string = "Welcome back to getBetter, " + username
   const text = username ? (
     <Header as="h1" content= {string}/> 
@@ -20,7 +22,10 @@ const Home = () => {
           <Header as='h1' textAlign="center" dividing content={text} style={{ padding: '1em' }}>
       </Header>
       </Container>
-      <Container text textAlign= "center">
+      <Container text textAlign= "center" style={{padding: ".5em"}}>
+      {appointments ? 
+                <AppointmentList/>
+                 : null}
       <Image style={{ padding: '1em' }} bordered rounded size='larger' src={bears} />
       <Grid.Row style={{ padding: '3em' }}>
           <p> getBetter is a tool for finding low-cost mental health and wellness options.
