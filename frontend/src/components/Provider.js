@@ -14,10 +14,10 @@ const Provider = (props) => {
     const userId = useSelector(state => state.user.id)
     const dispatch = useDispatch()
     const saveds = useSelector(state => state.user.saveds)
-    let savedProviders = saveds.map(saved => saved.provider_id)
+    let savedProviders
     const [date, setDate] = useState({date: ""})
     let currentDate = date.date
-    let saved = saveds.find(saved => saved.provider_id === props.provider.id)
+    let saved 
 
 
     const addToSavedPlaces = () => {
@@ -26,6 +26,9 @@ const Provider = (props) => {
     }
 
     const removeFromSavedPlaces = () => {
+        if(saveds){
+            saved = saveds.find(saved => saved.provider_id === props.provider.id)
+        }
         let result = window.confirm("Are you sure you wish to remove this place?")
         if(result && saved){
             dispatch(userActions.removeSavedPlace(saved.id, props.provider.id))
@@ -45,15 +48,19 @@ const Provider = (props) => {
     }
 
     const currentlySaved = () => {
-        if(savedProviders.includes(props.provider.id)){
-            return <Button
-            onClick={removeFromSavedPlaces}
-            >Remove from My Places</Button>
-                } else {
-            return <Button
-            onClick= {addToSavedPlaces}
-            >Save to My Places</Button>
-                }
+        if(saveds){
+            savedProviders = saveds.map(saved => saved.provider_id)
+            if(savedProviders.includes(props.provider.id)){
+                return <Button
+                onClick={removeFromSavedPlaces}
+                >Remove from My Places</Button>
+                    } else {
+                return <Button
+                onClick= {addToSavedPlaces}
+                >Save to My Places</Button>
+                    }
+        }
+        
     }
     
     const map = () => {

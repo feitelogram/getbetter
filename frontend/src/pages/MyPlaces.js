@@ -43,12 +43,12 @@ const MyPlaces = () => {
              <Header as='h1' dividing textAlign="center" content="These are your Resources"/>
              <Header as='h2' dividing textAlign="center" content="You can also make an appointment here to visit one of your choices."/>
              <Header as='h3' dividing textAlign="center" content="Feel free to add or delete from this list. Your time is your own."/>
-             {appointments ? 
-                <AppointmentList/>
-                 : null}
+             {!appointments || appointments.length === 0 ? null
+             
+             : <AppointmentList/>}
              <Grid celled='internally' columns={3} stackable divided style={{ padding: '5em' }}>
-             {savedPlaces ? savedPlaces.map(provider => <Grid.Column key={provider.id}><Provider provider={provider} key={provider.id} saved={true}/></Grid.Column>) : 
-             <Header as='h3' textAlign="center" content="You currently have no saved places."/>
+             {!savedPlaces || savedPlaces.length===0  ?  <Header as='h3' textAlign="center" content="You currently have no saved places."/> : 
+             savedPlaces.map(provider => <Grid.Column key={provider.id}><Provider provider={provider} key={provider.id} saved={true}/></Grid.Column>)
              }
              </Grid>
              

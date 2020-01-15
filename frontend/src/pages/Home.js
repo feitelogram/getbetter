@@ -6,6 +6,7 @@ import bears from "../images/bears.jpg"
 import AppointmentList from "../components/AppointmentList"
 
 
+
 const Home = () => {
   const username = useSelector(state => state.user.username);
   const appointments = useSelector(state => state.user.appointments)
@@ -16,6 +17,7 @@ const Home = () => {
     <Header as="h1" content= "Welcome to getBetter. Please login or sign-up to start."/> 
     
   );
+
   return <div>
           <InlineStyle/>
           <Container text>
@@ -23,10 +25,9 @@ const Home = () => {
       </Header>
       </Container>
       <Container text textAlign= "center" style={{padding: ".5em"}}>
-      {appointments ? 
-                <AppointmentList/>
-                 : null}
-      <Image style={{ padding: '1em' }} bordered rounded size='larger' src={bears} />
+      {!appointments || appointments.length === 0 ? null: <AppointmentList/>}
+                 
+      <Image style={{ padding: '1em' }} bordered rounded size='big' src={bears} />
       <Grid.Row style={{ padding: '3em' }}>
           <p> getBetter is a tool for finding low-cost mental health and wellness options.
               It uses both sliding scale and free resources.

@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+
+    def index
+        render json: User.all
+    end
+
     def show
         user = User.find(params[:id])
         render json: user, include: [:saveds, :providers, :appointments]
@@ -9,7 +14,7 @@ class UsersController < ApplicationController
         if user.valid?
             user = user
             token = JWT.encode({user_id: user.id}, secret, 'HS256')
-            render json: {user: user, token: token}
+            render json: {user: user.as_json(include: [:saveds, :providers, :appointments]), token: token}
         else
             render json: {errors: user.errors.full_messages}
         end

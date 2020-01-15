@@ -21,7 +21,7 @@ import actions from '../redux/actions';
                     if(result){
                     dispatch(actions.removeAppointment(appointment.id))}
                 }
-                return <List.Item>
+                return <List.Item key={appointment.id}>
                     {string}
                 <Button
                 onClick={handleRemove}
@@ -35,7 +35,7 @@ import actions from '../redux/actions';
             <Container text dividing background="green">
             <Header as="h3" textAlign="center" content= "Here are your scheduled appointments:"/>
             <List bulleted>
-                {renderAppointments()}
+                {appointments.length === 0 ? <List.Item>none</List.Item> : renderAppointments()}
                 </List>
                 <Divider/>
                 </Container>

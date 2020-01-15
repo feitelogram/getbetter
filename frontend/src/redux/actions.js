@@ -1,3 +1,5 @@
+import axios from "axios"
+
 const BASE_URL = 'http://localhost:3000';
 const USERS_URL = BASE_URL + '/users';
 const PERSIST_URL = BASE_URL + '/persist';
@@ -103,11 +105,12 @@ const logoutUser = () => dispatch => {
 };
 
 const getAllProviders = () => dispatch => {
-    fetch(PROVIDERS_URL)
-    .then(resp => resp.json())
-    .then(providersArr => {
-        dispatch(setProvidersAction(providersArr))
-    })
+    const axiosProviders = async () => {
+        const result = await axios(PROVIDERS_URL)
+        dispatch(setProvidersAction(result.data))
+    }
+    axiosProviders()
+    
 }
 
 const makeSavedPlace = (userId, providerId) => dispatch => {
