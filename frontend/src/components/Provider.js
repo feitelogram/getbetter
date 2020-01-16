@@ -42,9 +42,14 @@ const Provider = (props) => {
     
     const handleSubmit = e => {
         e.preventDefault()
+        if(date === ""){
+            MySwal.fire({title: "Please enter a time or day for your appointment."})
+        } else {
+        saved = saveds.find(saved => saved.provider_id === props.provider.id)
         dispatch(userActions.addAppointment(saved.id, date))
         setDate({date: ""})
         MySwal.fire({title: "Added to your Appointments"})
+        }
     }
 
     const currentlySaved = () => {
@@ -87,7 +92,7 @@ const Provider = (props) => {
         )}
 
     return (
-        <Card>
+        <Card color= "olive" >
             <Card.Content>
             <Card.Header>
                 {props.provider.name ? props.provider.name : "Open Meeting"}

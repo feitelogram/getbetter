@@ -31,6 +31,7 @@ const Signup = props => {
         } else {
         dispatch(userActions.setUserAction(data.user));
         localStorage.setItem('token', data.token);
+        MySwal.fire({title: "Signup successful.", footer: "Welcome back to getBetter."})
         history.push('/');
     }
     })};

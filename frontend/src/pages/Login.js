@@ -24,6 +24,7 @@ const LoginPage = props => {
         if(data.errors) {
             MySwal.fire({title: "Login not found.", footer: "Check your password, try again or signup."})
         } else {
+            MySwal.fire({title: "Login successful.", footer: "Welcome back to getBetter."})
         dispatch(userActions.setUserAction(data.user));
         localStorage.setItem('token', data.token);
         props.history.push('/');

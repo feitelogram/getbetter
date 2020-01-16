@@ -29,9 +29,9 @@ therapy_array.each do |data|
     )
 end
 
-alcohol_results = `curl 'https://www.nyintergroup.org/wp-admin/admin-ajax.php?action=tsml_locations' -H 'Connection: keep-alive' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'X-Requested-With: XMLHttpRequest' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Referer: https://www.nyintergroup.org/meetings/?tsml-day=any&tsml-region=manhattan' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'Cookie: wpfront-notification-bar-landingpage=1; mailchimp_landing_site=https%3A%2F%2Fwww.nyintergroup.org%2Fmeetings%2F%3Ftsml-region%3Dmanhattan; PHPSESSID=571a241ab127ca34013948ffd8e9dc0f; tk_ai=woo%3AsT1lqWa244kFM9eaLXoG377n; wpfront-notification-bar-landingpage=1; hustle_module_show_count-slidein-1=1' --compressed`
+alcohol_results = `curl 'https://www.nyintergroup.org/wp-admin/admin-ajax.php' -H 'Connection: keep-alive' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Origin: https://www.nyintergroup.org' -H 'X-Requested-With: XMLHttpRequest' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' -H 'Sec-Fetch-Site: same-origin' -H 'Sec-Fetch-Mode: cors' -H 'Referer: https://www.nyintergroup.org/meetings/?tsml-day=any&tsml-type=BE' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'Cookie: wpfront-notification-bar-landingpage=1; mailchimp_landing_site=https%3A%2F%2Fwww.nyintergroup.org%2Fmeetings%2F%3Ftsml-region%3Dmanhattan; PHPSESSID=571a241ab127ca34013948ffd8e9dc0f; tk_ai=woo%3AsT1lqWa244kFM9eaLXoG377n; wpfront-notification-bar-landingpage=1; hustle_module_show_count-slidein-1=1' --data 'action=meetings&mode=search&type=BE&distance=2&view=list&distance_units=mi&nonce=44c8ee9c76' --compressed`
 alcohol_parsed = JSON.parse(alcohol_results)
-alcohol_parsed.each do |data|
+alcohol_parsed[0..50].each do |data|
     Provider.create(
         name: data["value"],
         address: data["formatted_address"],
@@ -44,8 +44,7 @@ end
 
 Provider.create(
         name: "City Lights Sunday",
-        address: "336 W. 37th Street, Suite 1510-2
-        (Between 8th and 9th)",
+        address: "336 W. 37th Street, NY, NY",
         phone: "646-703-0048",
         website: "http://slaany.org",
         email: "info@slaany.org",

@@ -30,3 +30,8 @@ img {
   font-stretch: wider;
 }
 
+.ui.card,
+.ui.cards>.card {
+  background-color: skyblue;
+}
+
