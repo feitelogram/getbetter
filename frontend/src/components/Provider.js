@@ -31,8 +31,8 @@ const Provider = (props) => {
         }
         let result = window.confirm("Are you sure you wish to remove this place?")
         if(result && saved){
+            MySwal.fire({title: "Removed from Resources"})
             dispatch(userActions.removeSavedPlace(saved.id, props.provider.id))
-            MySwal.fire({title: "Resource Removed"})
         }
     }
 
@@ -92,7 +92,7 @@ const Provider = (props) => {
         )}
 
     return (
-        <Card color= "olive" >
+        <Card color= "olive" raised={true} >
             <Card.Content>
             <Card.Header>
                 {props.provider.name ? props.provider.name : "Open Meeting"}

@@ -35,3 +35,7 @@ img {
   background-color: skyblue;
 }
 
+.card:hover {
+  background-color: mediumaquamarine;
+  transform: scale(1.05)
+}

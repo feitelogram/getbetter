@@ -15,4 +15,5 @@ ASSISTANT = IBMWatson::AssistantV2.new(
   puts JSON.pretty_generate(response.result)
   
   SESSION_ID = response.result["session_id"]
+  ASSISTANT_ID = ENV["AID"]
  

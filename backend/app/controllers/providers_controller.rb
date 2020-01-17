@@ -7,4 +7,8 @@ class ProvidersController < ApplicationController
         provider = Provider.find(params[:id])
         render json: provider
     end
+
+    def test
+       render json: {message: "hi"}
+    end
 end

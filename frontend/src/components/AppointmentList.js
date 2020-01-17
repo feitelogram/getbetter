@@ -2,6 +2,11 @@ import React from 'react'
 import {useSelector, useDispatch} from "react-redux"
 import { Header, Container, List, Divider, Button } from 'semantic-ui-react'
 import actions from '../redux/actions';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
+
 
     const AppointmentList = () => {
 
@@ -19,6 +24,7 @@ import actions from '../redux/actions';
                 const handleRemove = () => {
                     let result = window.confirm("Are you sure you wish to delete this appointment?")
                     if(result){
+                    MySwal.fire({title: "Appointment removed."})
                     dispatch(actions.removeAppointment(appointment.id))}
                 }
                 return <List.Item key={appointment.id}>

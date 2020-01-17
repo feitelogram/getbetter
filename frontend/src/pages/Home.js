@@ -7,7 +7,9 @@ import AppointmentList from "../components/AppointmentList"
 
 
 
+
 const Home = () => {
+  // const WATSON_URL = "http://localhost:3000/watsonapi"
   const username = useSelector(state => state.user.username);
   const appointments = useSelector(state => state.user.appointments)
   let string = "Welcome back to getBetter, " + username
@@ -17,6 +19,10 @@ const Home = () => {
     <Header as="h1" content= "Welcome to getBetter. Please login or sign-up to start."/> 
     
   );
+
+ 
+debugger
+
 
   return <div>
           <InlineStyle/>
@@ -34,7 +40,9 @@ const Home = () => {
               getBetter neither endorses nor disparages any place listed.
               Every person finds the help that works for them, so feel free to try a few places and see what works for you. </p>
       </Grid.Row>
+
       </Container>
+      
   </div>;
 };
 
