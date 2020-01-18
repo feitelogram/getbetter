@@ -43,7 +43,8 @@ class WatsonController < ApplicationController
     end
 
     def api
-        puts "hi"
+        r = ASSISTANT.message({input: {text: params[:message]}, assistant_id: ASSISTANT_ID, session_id: SESSION_ID})
+        render json: r.result["output"]["generic"][0]
     end
 
 end

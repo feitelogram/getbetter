@@ -1,14 +1,22 @@
-import React from 'react'
-import {useSelector} from "react-redux"
+import React, { useEffect } from 'react'
+import {useSelector, useDispatch} from "react-redux"
 import Provider from "../components/Provider"
 import { Header, Grid } from 'semantic-ui-react'
 import AppointmentList from "../components/AppointmentList"
+import userActions from "../redux/actions"
 // import Swal from 'sweetalert2'
 // import withReactContent from 'sweetalert2-react-content'
 
 // const MySwal = withReactContent(Swal)
 
 const MyPlaces = () => {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(userActions.persistUser())
+    }, [dispatch]
+    )
 
     const savedPlaces = useSelector(state => state.user.providers)
     const appointments = useSelector(state => state.user.appointments)

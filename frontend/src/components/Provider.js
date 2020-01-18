@@ -18,6 +18,7 @@ const Provider = (props) => {
     const [date, setDate] = useState({date: ""})
     let currentDate = date.date
     let saved 
+    let appointments = useSelector(state => state.user.appointments)
 
 
     const addToSavedPlaces = () => {
@@ -28,6 +29,13 @@ const Provider = (props) => {
     const removeFromSavedPlaces = () => {
         if(saveds){
             saved = saveds.find(saved => saved.provider_id === props.provider.id)
+        }
+        if(appointments){
+            let appointmentSavedIds = appointments.map(appointment => appointment.saved_id)
+            if(appointmentSavedIds.includes(saved.id)){
+                MySwal.fire({title: "Please remove the resource from your saved places before trying to delete an appointment."})
+                return ""
+            }
         }
         let result = window.confirm("Are you sure you wish to remove this place?")
         if(result && saved){

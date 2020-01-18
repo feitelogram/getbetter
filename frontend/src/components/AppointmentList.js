@@ -38,7 +38,7 @@ const MySwal = withReactContent(Swal)
         
 
         return (
-            <Container text dividing background="green">
+            <Container text dividing="true" background="green">
             <Header as="h3" textAlign="center" content= "Here are your scheduled appointments:"/>
             <List bulleted>
                 {appointments.length === 0 ? <List.Item>none</List.Item> : renderAppointments()}

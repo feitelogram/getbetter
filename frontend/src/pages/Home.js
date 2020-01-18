@@ -4,24 +4,17 @@ import InlineStyle from '../styles/InlineStyle';
 import {Container, Header, Image, Grid} from "semantic-ui-react"
 import bears from "../images/bears.jpg"
 import AppointmentList from "../components/AppointmentList"
-
-
-
+import Watson from "../components/Watson"
 
 const Home = () => {
   // const WATSON_URL = "http://localhost:3000/watsonapi"
   const username = useSelector(state => state.user.username);
   const appointments = useSelector(state => state.user.appointments)
   let string = "Welcome back to getBetter, " + username
-  const text = username ? (
-    <Header as="h1" content= {string}/> 
-  ) : (
-    <Header as="h1" content= "Welcome to getBetter. Please login or sign-up to start."/> 
-    
-  );
+  const text = username ? string : "Welcome to getBetter. Please login or sign-up to start."
+
 
  
-debugger
 
 
   return <div>
@@ -40,9 +33,8 @@ debugger
               getBetter neither endorses nor disparages any place listed.
               Every person finds the help that works for them, so feel free to try a few places and see what works for you. </p>
       </Grid.Row>
-
       </Container>
-      
+      <Watson/>
   </div>;
 };
 

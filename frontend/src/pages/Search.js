@@ -3,6 +3,8 @@ import {useSelector} from "react-redux"
 import Provider from "../components/Provider"
 import DropdownSelect from '../components/DropdownSelect'
 import { Header, Grid } from 'semantic-ui-react'
+import Watson from "../components/Watson"
+
 
 
 const Search = () => {
@@ -38,6 +40,7 @@ const Search = () => {
             <Grid celled='internally' columns={3} stackable divided style={{ padding: '5em' }}>
            {currentProviders().map(provider => <Grid.Column key={provider.id}><Provider provider={provider} key={provider.id}/></Grid.Column>)}
            </Grid>
+           <Watson/>
         </div>
     )
 }

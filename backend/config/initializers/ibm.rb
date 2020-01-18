@@ -16,4 +16,3 @@ ASSISTANT = IBMWatson::AssistantV2.new(
   
   SESSION_ID = response.result["session_id"]
   ASSISTANT_ID = ENV["AID"]
- 
