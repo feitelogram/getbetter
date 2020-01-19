@@ -37,14 +37,19 @@ class WatsonController < ApplicationController
             else
                 render json: {error: "error"}
             end
+        elsif params[:weather]
+            r = `curl https://api.weather.gov/gridpoints/OKX/33,32/forecast`
+            p = JSON.parse(r)
+            m = p["properties"]["periods"][0]
+            render json: m
         else
             render json: {message: "not found"}
         end
     end
 
     def api
-        r = ASSISTANT.message({input: {text: params[:message]}, assistant_id: ASSISTANT_ID, session_id: SESSION_ID})
-        render json: r.result["output"]["generic"][0]
+            r = ASSISTANT.message({input: {text: params[:message]}, assistant_id: ASSISTANT_ID, session_id: SESSION_ID})
+            render json: r.result["output"]["generic"][0]
     end
 
 end
