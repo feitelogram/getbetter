@@ -48,8 +48,15 @@ class WatsonController < ApplicationController
     end
 
     def api
+        begin
             r = ASSISTANT.message({input: {text: params[:message]}, assistant_id: ASSISTANT_ID, session_id: SESSION_ID})
-            render json: r.result["output"]["generic"][0]
+            r = r.result["output"]["generic"][0]
+        rescue => exception
+            response = ASSISTANT.create_session(assistant_id: ENV["AID"]) #starting a new session
+            puts JSON.pretty_generate(response.result) #debugging
+            r = {text: "Hold a moment as the assistant reloads!"}
+        end
+        render json: r
     end
 
 end
