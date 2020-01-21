@@ -8,7 +8,6 @@ import Watson from "../components/Watson"
 
 
 const Search = () => {
-    console.log(process.env.REACT_APP_API_KEY)
     let [filterValue, setFilterValue] = useState({filter: ""})
     let providers = useSelector(state => state.providers)
     let {filter} = filterValue

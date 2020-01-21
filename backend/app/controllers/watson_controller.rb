@@ -17,10 +17,7 @@ class WatsonController < ApplicationController
                 render json: {error: "error"}
             end
         elsif params[:resource] 
-            random = Provider.where(category: params[:resource]).sample
-            # first = "https://www.google.com/maps/embed/v1/place?q="
-            # third = "&key=" + ENV["MAP_KEY"]
-            # address = first + random.address + third            
+            random = Provider.where(category: params[:resource]).sample          
             render json: random
         elsif params[:appointment]
             saved = Saved.find(params[:saved][:id])
@@ -48,13 +45,13 @@ class WatsonController < ApplicationController
     end
 
     def api
-        begin
-            r = ASSISTANT.message({input: {text: params[:message]}, assistant_id: ASSISTANT_ID, session_id: SESSION_ID})
+    r = ASSISTANT.message({input: {text: params[:message]}, assistant_id: ASSISTANT_ID, session_id: SESSION_ID})
+       if r.status == 200
             r = r.result["output"]["generic"][0]
-        rescue => exception
+        else
             response = ASSISTANT.create_session(assistant_id: ENV["AID"]) #starting a new session
             puts JSON.pretty_generate(response.result) #debugging
-            r = {text: "Hold a moment as the assistant reloads!"}
+            r = {text: "Hold a moment as the assistant reloads! Please try again in a moment."}
         end
         render json: r
     end

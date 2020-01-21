@@ -6,7 +6,7 @@ import 'react-chat-widget/lib/styles.css';
 const Watson = () => {
 
     useEffect(() => {
-      addResponseMessage("Hello, welcome to getBetter! In order to gain access to the site, you need to be logged-in or signup. So feel free to ask me for help with either of those things!")  
+      addResponseMessage("Hello, welcome to getBetter! In order to gain access to the site, you need to be logged-in or signup. So feel free to ask me for help with either of those things!. Also say 'quit' or 'thanks' at anytime to quit")  
     },[]
     )
 
@@ -26,10 +26,16 @@ const Watson = () => {
           })
         })
         .then(resp => resp.json())
-        .then(r => addResponseMessage(r.text))
+        .then(r => {
+            console.log(r)
+            r.text ? addResponseMessage(r.text) : addResponseMessage("Watson server down, please reload.")
+        })
       }
 
 
+      
+     
+      
 
 
     return (
