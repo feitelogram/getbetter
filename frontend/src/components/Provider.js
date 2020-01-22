@@ -66,11 +66,11 @@ const Provider = (props) => {
             if(savedProviders.includes(props.provider.id)){
                 return <Button
                 onClick={removeFromSavedPlaces}
-                >Remove from My Places</Button>
+                >Remove from Your Resources</Button>
                     } else {
                 return <Button
                 onClick= {addToSavedPlaces}
-                >Save to My Places</Button>
+                >Save to Your Resources</Button>
                     }
         }
         

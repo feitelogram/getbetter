@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import InlineStyle from '../styles/InlineStyle';
 import {Container, Header, Image, Grid} from "semantic-ui-react"
 import bears from "../images/bears.jpg"
 import AppointmentList from "../components/AppointmentList"
-import Watson from "../components/Watson"
+// import Watson from "../components/Watson"
 
 const Home = () => {
   // const WATSON_URL = "http://localhost:3000/watsonapi"
@@ -13,8 +13,24 @@ const Home = () => {
   let string = "Welcome back to getBetter, " + username
   const text = username ? string : "Welcome to getBetter. Please login or sign-up to start."
 
+const demoWatson = () => {
+  window.loadWatsonAssistantChat({
+    integrationID: "366ccdec-c083-47cd-a647-e4fac234a469", // The ID of this integration.
+    region: "us-south" // The region your integration is hosted in.
+  }).then( (instance) => {
+    instance.render()
+  }
+  
+    // instance.render();
+  );
+}
 
- 
+useEffect(() => {
+  demoWatson()
+}, []
+
+
+)
 
 
   return <div>
@@ -34,7 +50,6 @@ const Home = () => {
               Every person finds the help that works for them, so feel free to try a few places and see what works for you. </p>
       </Grid.Row>
       </Container>
-      <Watson/>
   </div>;
 };
 
