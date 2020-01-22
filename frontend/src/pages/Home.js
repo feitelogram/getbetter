@@ -15,7 +15,7 @@ const Home = () => {
 
 const demoWatson = () => {
   window.loadWatsonAssistantChat({
-    integrationID: "366ccdec-c083-47cd-a647-e4fac234a469", // The ID of this integration.
+    integrationID: process.env.REACT_APP_INTEGRATION, // The ID of this integration.
     region: "us-south" // The region your integration is hosted in.
   }).then( (instance) => {
     instance.render()
